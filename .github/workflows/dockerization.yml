@@ -7,7 +7,7 @@ on:
 jobs:
   login-and-pull-dev:
     if: github.ref == 'refs/heads/dev'
-    uses: ./usersAdministration/createUser/.github/workflows/login_pull.yml
+    uses: ./usersAdministration/createUser/.github/workflows/login_pull.yml@QA
     secrets:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
       docker_username: ${{ secrets.DOCKER_USERNAME }}
