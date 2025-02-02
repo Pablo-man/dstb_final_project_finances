@@ -5,7 +5,22 @@ on:
     branches: ["QA"]
 
 jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      modified_dirs: ${{ steps.changed_dirs.outputs.modified_dirs }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Detect modified directories
+        id: changed_dirs
+        run: |
+          MODIFIED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | cut -d/ -f1 | sort -u | tr '\n' ' ')
+          echo "modified_dirs=$MODIFIED" >> $GITHUB_OUTPUT
+
   login-and-pull-create:
+    needs: [detect-changes]
     uses: ./.github/workflows/userDomainCD.yml
     secrets:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
@@ -13,6 +28,7 @@ jobs:
       repository_name: ${{ secrets.DOCKER_REPOSITORY_CREATEUSER }}
 
   login-and-pull-read:
+    needs: [detect-changes]
     uses: ./.github/workflows/userDomainCD.yml
     secrets:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
@@ -20,6 +36,7 @@ jobs:
       repository_name: ${{ secrets.DOCKER_REPOSITORY_READUSER }}
 
   login-and-pull-update:
+    needs: [detect-changes]
     uses: ./.github/workflows/userDomainCD.yml
     secrets:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
@@ -27,6 +44,7 @@ jobs:
       repository_name: ${{ secrets.DOCKER_REPOSITORY_UPDATEUSER }}
 
   login-and-pull-delete:
+    needs: [detect-changes]
     uses: ./.github/workflows/userDomainCD.yml
     secrets:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
