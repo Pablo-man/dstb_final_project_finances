@@ -10,6 +10,20 @@ on:
       repository_name:
         required: true
 jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      modified_dirs: ${{ steps.changed_dirs.outputs.modified_dirs }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Detect modified directories
+        id: changed_dirs
+        run: |
+          MODIFIED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | cut -d/ -f1 | sort -u | jq -R -s -c 'split("\n")[:-1]')
+          echo "modified_dirs=$MODIFIED" >> $GITHUB_OUTPUT
+
   build-image:
     if: contains(env.CHANGED_DIRS, 'createUser')
     runs-on: ubuntu-latest
