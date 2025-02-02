@@ -5,10 +5,30 @@ on:
     branches: ["QA"]
 
 jobs:
-  login-and-pull-dev:
-    if: github.ref == 'refs/heads/dev'
-    uses: ./usersAdministration/createUser/.github/workflows/login_pull.yml@QA
+  login-and-pull-create:
+    uses: ./.github/workflows/userDomainCD.yml
     secrets:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
       docker_username: ${{ secrets.DOCKER_USERNAME }}
-      repository_name: ${{ secrets.DOCKER_REPOSITORY_USERCREATE }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_CREATEUSER }}
+
+  login-and-pull-read:
+    uses: ./.github/workflows/userDomainCD.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_READUSER }}
+
+  login-and-pull-update:
+    uses: ./.github/workflows/userDomainCD.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_UPDATEUSER }}
+
+  login-and-pull-delete:
+    uses: ./.github/workflows/userDomainCD.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_DELETEUSER }}
