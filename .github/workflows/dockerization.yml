@@ -5,13 +5,6 @@ on:
     branches: ["QA"]
 
 jobs:
-  change-rfolders:
-    steps:
-      - name: Obtener carpetas modificadas
-        id: changed_dirs
-        run: |
-          echo "CHANGED_DIRS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | cut -d/ -f1 | sort -u | tr '\n' ' ')" >> $GITHUB_ENV
-
   login-and-pull-create:
     uses: ./.github/workflows/userDomainCD.yml
     secrets:
