@@ -11,7 +11,6 @@ on:
         required: true
 jobs:
   build-image:
-    if: contains(fromJson(needs.detect-changes.outputs.modified_dirs), 'createUser')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
