@@ -2,8 +2,6 @@ name: User Domain Workflow deploy
 
 on: 
   workflow_call:
-    paths:
-      - 'usersAdministration/**'
     secrets:
       docker_username:
         required: true
@@ -13,6 +11,7 @@ on:
         required: true
 jobs:
   build-image:
+    if: contains(env.CHANGED_DIRS, 'createUser')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
