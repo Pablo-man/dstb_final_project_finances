@@ -25,7 +25,7 @@ jobs:
           echo "modified_dirs=$MODIFIED" >> $GITHUB_OUTPUT
 
   build-image:
-    if: contains(env.CHANGED_DIRS, 'createUser')
+    if: contains(fromJson(needs.detect-changes.outputs.modified_dirs), 'createUser')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
