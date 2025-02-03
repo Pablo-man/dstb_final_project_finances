@@ -13,18 +13,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
+      - name: Get last sha commit
+        id: obtener_sha
         run: |
-          echo "$GITHUB_CONTEXT"
+          sha_anterior=$(git log -1 --skip=1 --pretty=format:"%H")
+          echo "::set-output name=sha::$sha_anterior"
 
       - name: Detect modified directories
         id: changed_dirs
         run: |
-          echo "CHANGED_DIRS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | cut -d/ -f1 | sort -u | tr '\n' ' ')" >> $GITHUB_ENV
-          echo "$GITHUB_ENV"
-          
+          echo "CHANGED_DIRS=$(git diff --name-only ${{ steps.obtener_sha.outputs.sha }} ${{ github.sha }} | cut -d/ -f1 | sort -u | tr '\n' ' ')" >> $GITHUB_ENV
 
   login-and-pull-create:
     needs: [detect-changes]
