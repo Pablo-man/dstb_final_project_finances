@@ -8,7 +8,7 @@ jobs:
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
-      modified_dirs: ${{ steps.changed_dirs.outputs.modified_dirs }}
+      modified_dirs: ${{ steps.changed_dirs.outputs.dirs }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -24,8 +24,8 @@ jobs:
       - name: Detect modified directories
         id: changed_dirs
         run: |
-          CHANGED_DIRS=$(git diff --name-only ${{ steps.obtener_sha.outputs.sha }} ${{ github.sha }} | cut -d/ -f2 | sort -u | tr '\n' ' ')
-          echo "::set-output name=dirs::$CHANGED_DIRS" # Corregido: nombre de la salida
+          CHANGED_DIRS=$(git diff --name-only ${{ steps.obtener_sha.outputs.sha }} ${{ github.sha }} | cut -d/ -f2 | sort -u )
+          echo "::set-output name=dirs::$CHANGED_DIRS" 
           echo "CHANGED_DIRS: $CHANGED_DIRS" # Para depuración
 
   login-and-pull-create:
