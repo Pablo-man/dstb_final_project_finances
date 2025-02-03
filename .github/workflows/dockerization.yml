@@ -16,50 +16,59 @@ jobs:
           fetch-depth: 0
 
       - name: Get last sha commit
-        id: obtener_sha
+        id: get_sha
         run: |
-          sha_anterior=$(git log -1 --skip=1 --pretty=format:"%H")
-          echo "::set-output name=sha::$sha_anterior"
+          before_sha=$(git log -1 --skip=1 --pretty=format:"%H")
+          echo "::set-output name=sha::$before_sha"
 
       - name: Detect modified directories
         id: changed_dirs
         run: |
-          CHANGED_DIRS=$(git diff --name-only ${{ steps.obtener_sha.outputs.sha }} ${{ github.sha }} | cut -d/ -f2 | sort -u )
+          CHANGED_DIRS=$(git diff --name-only ${{ steps.get_sha.outputs.sha }} ${{ github.sha }} | cut -d/ -f2 | sort -u )
           echo "::set-output name=dirs::$CHANGED_DIRS" 
-          echo "CHANGED_DIRS: $CHANGED_DIRS" # Para depuración
+          echo "CHANGED_DIRS: $CHANGED_DIRS" 
 
-  login-and-pull-create:
+  login-push-usercreate:
     needs: [detect-changes]
     if: contains(needs.detect-changes.outputs.modified_dirs, 'createuser')
-    uses: ./.github/workflows/userDomainCD.yml
+    uses: ./.github/workflows/login-build-push.yml
     secrets:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       repository_name: ${{ secrets.DOCKER_REPOSITORY_CREATEUSER }}
 
-  login-and-pull-read:
+  login-push-userread:
     needs: [detect-changes]
     if: contains(needs.detect-changes.outputs.modified_dirs, 'readuser')
-    uses: ./.github/workflows/userDomainCD.yml
+    uses: ./.github/workflows/login-build-push.yml
     secrets:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       repository_name: ${{ secrets.DOCKER_REPOSITORY_READUSER }}
 
-  login-and-pull-update:
+  login-push-userupdate:
     needs: [detect-changes]
     if: contains(needs.detect-changes.outputs.modified_dirs, 'updateuser')
-    uses: ./.github/workflows/userDomainCD.yml
+    uses: ./.github/workflows/login-build-push.yml
     secrets:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       repository_name: ${{ secrets.DOCKER_REPOSITORY_UPDATEUSER }}
 
-  login-and-pull-delete:
+  login-push-userdelete:
     needs: [detect-changes]
     if: contains(needs.detect-changes.outputs.modified_dirs, 'deleteuser')
-    uses: ./.github/workflows/userDomainCD.yml
+    uses: ./.github/workflows/login-build-push.yml
     secrets:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       repository_name: ${{ secrets.DOCKER_REPOSITORY_DELETEUSER }}
+
+  ec2-cd-userdomain:
+    needs: [login-push-usercreate, login-push-userread, login-push-userupdate,login-push-userdelete]
+    uses: ./.github/workflows/setupDocker.yml
+    secrets:
+      ec2_host: ${{ secrets.EC2_HOST_USERDOMAIN }}
+      ec2_key: ${{ secrets.EC2_KEY_USERDOMAIN }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+

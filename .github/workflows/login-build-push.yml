@@ -1,4 +1,4 @@
-name: User Domain Workflow deploy
+name: Build and push microservice image
 
 on: 
   workflow_call:
@@ -22,7 +22,7 @@ jobs:
           username: ${{ secrets.docker_username }}
           password: ${{ secrets.docker_password }}
 
-      - name: Build and push Docker image
+      - name: Build and push image
         working-directory: usersAdministration/${{ secrets.repository_name }}
         run: |
           docker build -t ${{ secrets.docker_username }}/${{ secrets.repository_name }}:latest .

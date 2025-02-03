@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  createuser:
+    image: pamendeza/createuser:latest
+    ports:
+      - "4001:4001"
+    restart: always 
+
+  readuser:
+    image: pamendeza/readuser:latest
+    ports:
+      - "4002:4002" 
+    restart: always
+
+  updateuser:
+    image: pamendeza/updateuser:latest
+    ports:
+      - "4003:4003" 
+    restart: always  
+
+  deleteuser:
+    image: pamendeza/deleteuser:latest
+    ports:
+      - "4004:4004" 
+    restart: always  
