@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Get last sha commit
         id: obtener_sha
@@ -22,10 +24,13 @@ jobs:
       - name: Detect modified directories
         id: changed_dirs
         run: |
-          echo "CHANGED_DIRS=$(git diff --name-only ${{ steps.obtener_sha.outputs.sha }} ${{ github.sha }} | cut -d/ -f1 | sort -u | tr '\n' ' ')" >> $GITHUB_ENV
+          CHANGED_DIRS=$(git diff --name-only ${{ steps.obtener_sha.outputs.sha }} ${{ github.sha }} | cut -d/ -f1 | sort -u | tr '\n' ' ')
+          echo "::set-output name=dirs::$CHANGED_DIRS" # Corregido: nombre de la salida
+          echo "CHANGED_DIRS: $CHANGED_DIRS" # Para depuración
 
   login-and-pull-create:
     needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'createuser')
     uses: ./.github/workflows/userDomainCD.yml
     secrets:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
@@ -34,6 +39,7 @@ jobs:
 
   login-and-pull-read:
     needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'readuser')
     uses: ./.github/workflows/userDomainCD.yml
     secrets:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
@@ -42,6 +48,7 @@ jobs:
 
   login-and-pull-update:
     needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'updateuser')
     uses: ./.github/workflows/userDomainCD.yml
     secrets:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
@@ -50,6 +57,7 @@ jobs:
 
   login-and-pull-delete:
     needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'deleteuser')
     uses: ./.github/workflows/userDomainCD.yml
     secrets:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
