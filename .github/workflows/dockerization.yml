@@ -24,7 +24,7 @@ jobs:
       - name: Detect modified directories
         id: changed_dirs
         run: |
-          CHANGED_DIRS=$(git diff --name-only ${{ steps.get_sha.outputs.sha }} ${{ github.sha }} | cut -d/ -f2 | sort -u )
+          CHANGED_DIRS=$(git diff --name-only ${{ steps.get_sha.outputs.sha }} ${{ github.sha }} | cut -d/ -f2 | sort -u | tr -d '\n' | sed 's/ //g' )
           echo "::set-output name=dirs::$CHANGED_DIRS" 
           echo "CHANGED_DIRS: $CHANGED_DIRS" 
 
