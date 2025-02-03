@@ -16,7 +16,7 @@ jobs:
       - name: Detect modified directories
         id: changed_dirs
         run: |
-          MODIFIED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | cut -d/ -f1 | sort -u | tr '\n' ' ')
+          MODIFIED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | cut -d/ -f1 | sort -u | jq -R -s -c 'split("\n")[:-1]')
           echo "modified_dirs=$MODIFIED" >> $GITHUB_OUTPUT
 
   login-and-pull-create:
