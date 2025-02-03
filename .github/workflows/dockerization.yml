@@ -65,7 +65,7 @@ jobs:
       repository_name: ${{ secrets.DOCKER_REPOSITORY_DELETEUSER }}
 
   ec2-cd-userdomain:
-    needs: [login-push-usercreate, login-push-userread, login-push-userupdate,login-push-userdelete]
+    needs: login-push-usercreate
     uses: ./.github/workflows/setupDocker.yml
     secrets:
       ec2_host: ${{ secrets.EC2_HOST_USERDOMAIN }}

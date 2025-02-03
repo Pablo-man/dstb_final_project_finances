@@ -4,7 +4,7 @@ services:
   createuser:
     image: pamendeza/createuser:latest
     ports:
-      - "3001:3001"
+      - "4001:4001"
     restart: always 
 
   readuser:

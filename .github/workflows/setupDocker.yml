@@ -19,6 +19,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Create private key file
+      working-directory: usersAdministration
       run: |
         echo "${{ secrets.ec2_key }}" > private_key.pem
         chmod 600 private_key.pem
