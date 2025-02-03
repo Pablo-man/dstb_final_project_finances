@@ -57,8 +57,7 @@ jobs:
 
           cd /home/ubuntu
 
-          sudo docker pull ${{ secrets.docker_username }}/app1:latest
-          sudo docker pull ${{ secrets.docker_username }}/app2:latest
+          sudo docker-compose pull
 
           sudo docker-compose down || true
 
