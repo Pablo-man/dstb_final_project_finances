@@ -16,6 +16,9 @@ jobs:
       - name: Detect modified directories
         id: changed_dirs
         run: |
+          git rev-parse 8d8260149d4452354a96cc96a1178768b265e22d
+
+
           MODIFIED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | cut -d/ -f1 | sort -u | jq -R -s -c 'split("\n")[:-1]')
           echo "modified_dirs=$MODIFIED" >> $GITHUB_OUTPUT
 
