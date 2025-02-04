@@ -5,22 +5,43 @@ services:
     image: pamendeza/createuser:latest
     ports:
       - "3001:3001"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=27017
     restart: always 
 
   readuser:
     image: pamendeza/readuser:latest
     ports:
-      - "3002:3002" 
+      - "3002:3002"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=27017
     restart: always
 
   updateuser:
     image: pamendeza/updateuser:latest
     ports:
-      - "3003:3003" 
+      - "3003:3003"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=27017
     restart: always  
 
   deleteuser:
     image: pamendeza/deleteuser:latest
     ports:
-      - "3004:3004" 
+      - "3004:3004"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=27017
     restart: always  
+
+  db:
+      image: mongo:latest
+      hostname: db
+      ports:
+        - "27017:27017"
+      volumes:
+        - /home/ubuntu/data/db:/data/db
+
