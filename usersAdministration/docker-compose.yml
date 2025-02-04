@@ -8,7 +8,9 @@ services:
     environment:
       - DB_HOST=db
       - DB_PORT=27017
-    restart: always 
+    restart: always
+    depends_on:
+      - db
 
   readuser:
     image: pamendeza/readuser:latest
@@ -18,6 +20,8 @@ services:
       - DB_HOST=db
       - DB_PORT=27017
     restart: always
+    depends_on:
+      - db
 
   updateuser:
     image: pamendeza/updateuser:latest
@@ -27,6 +31,8 @@ services:
       - DB_HOST=db
       - DB_PORT=27017
     restart: always  
+    depends_on:
+      - db
 
   deleteuser:
     image: pamendeza/deleteuser:latest
@@ -35,7 +41,9 @@ services:
     environment:
       - DB_HOST=db
       - DB_PORT=27017
-    restart: always  
+    restart: always
+    depends_on:
+      - db
 
   db:
       image: mongo:latest
