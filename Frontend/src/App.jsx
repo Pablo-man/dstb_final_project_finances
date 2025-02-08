@@ -16,8 +16,8 @@ function App(){
           <Route path='/signin' element= {<SignInPage />} />
           <Route path='/register' element= {<RegisterPage />} />
           <Route path='/signout' element= {<h1>SignOut</h1>} />
+          <Route path='/transaction' element= {<TransactionPage />} />
           <Route element= {<ProtectedRoute />}>
-            <Route path='/transaction' element= {<TransactionPage />} />
             <Route path='/profile' element= {<ProfilePage />} />
           </Route>
         </Routes>
