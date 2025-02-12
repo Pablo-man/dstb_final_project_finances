@@ -30,5 +30,3 @@ app.use(express.urlencoded({ extended: true }));
 app.listen(app.get("port"),()=>{
     console.log(`server on port ${app.get("port")}`)
 })
-
-export default app;
