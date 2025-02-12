@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { useTransactions } from '../context/TransactionContext.jsx'
+import { useTransactions } from '../context/TransactionContext'
 
 function TransactionPage() {
     const { register, handleSubmit, formState: { errors } } = useForm()
@@ -62,7 +62,7 @@ function TransactionPage() {
                     }
                     <button type="submit">Crear</button>
                 </form>
-                <img src="https://transactionsevidence.s3.us-east-1.amazonaws.com/FINANCIES.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAVPEYWS5Q5SE2POGI%2F20250211%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250211T235405Z&X-Amz-Expires=3600&X-Amz-Signature=4a48f0a9de90ceff7181bda7d793f11a185e80acfd9ab4775e4919a54d33f93f&X-Amz-SignedHeaders=host&x-id=GetObject" alt="" />
+                <img src="" alt="" />
             </div>
         </div>
     )

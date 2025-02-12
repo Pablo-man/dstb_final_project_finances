@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }) => {
     const signup = async (user) => {
         try {
             const res = await registerRequest(user)
-            console.log(res.data)
             setUser(res.data)
             setIsAuthenticated(true)
         } catch (error) {
@@ -32,6 +31,7 @@ export const AuthProvider = ({ children }) => {
 
     const signin = async (user) => {
         try {
+            console.log(user)
             const res = await signInRequest(user)
             console.log(res.data)
             setUser(res.data)
@@ -41,6 +41,12 @@ export const AuthProvider = ({ children }) => {
             setErrors(error.response.data.message)
         }
     }
+
+    const logout = () => {
+        Cookies.remove("token");
+        setUser(null);
+        setIsAuthenticated(false);
+    };
 
     useEffect(() => {
         if (errors.length > 0) {
@@ -61,7 +67,6 @@ export const AuthProvider = ({ children }) => {
             }
             try {
                 const res = await verifyTokenRequest(cookies.token)
-                console.log(res)
                 if (!res.data) return setIsAuthenticated(false)
                 setIsAuthenticated(true)
                 setLoading(false)
@@ -79,6 +84,7 @@ export const AuthProvider = ({ children }) => {
             value={{
                 signup,
                 signin,
+                logout,
                 user,
                 isAuthenticated,
                 loading,

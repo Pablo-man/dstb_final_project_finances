@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { registerTransaction } from '../api/transactions'
+import { listTransactions, registerTransaction, resgisterImage } from '../api/transactions'
 
 const TransactionContext = createContext()
 
@@ -16,9 +16,19 @@ export const TransactionProvider = ({ children }) => {
 
     const createTransaction = async (transaction) => {
         try{
+            const url = await resgisterImage(transaction.evidence[0])
+            transaction.evidence = url.resultURL
             const res = await registerTransaction(transaction)
             console.log(res)
         }catch (error) {
+            console.log(error)
+        }
+    }
+    const listTransaction = async (data) => {
+        try{
+            const res = await listTransactions(data)
+            setTransactions(res)
+        }catch(error){
             console.log(error)
         }
     }
@@ -27,7 +37,8 @@ export const TransactionProvider = ({ children }) => {
         <TransactionContext.Provider
             value={{
                 transactions,
-                createTransaction
+                createTransaction,
+                listTransaction,
             }}
         >
             {children}

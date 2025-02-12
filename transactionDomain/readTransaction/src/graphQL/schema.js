@@ -1,6 +1,5 @@
-import {GraphQLObjectType, GraphQLSchema} from 'graphql'
+import {GraphQLObjectType, GraphQLSchema, GraphQLString} from 'graphql'
 import {transaction, transactions} from './queries.js'
-import {register} from './mutations.js'
 
 const QueryType= new GraphQLObjectType({
     name: 'QueryType',

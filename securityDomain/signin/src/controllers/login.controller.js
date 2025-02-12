@@ -63,8 +63,7 @@ export const verifyToken = async (req, res) => {
   else {
     jwt.verify(token, "key123", async (error, user) => {
       if (error) return res.sendStatus(401)
-
-      const userFound = await User.findOne( user._id );
+      const userFound = await User.findOne( {_id: user.id });
       if(!userFound) return res.sendStatus(401)
       
       return res.json({

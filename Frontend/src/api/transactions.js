@@ -30,3 +30,46 @@ export const registerTransaction = async (data) => {
         return null;
     }
 }
+
+export const resgisterImage = async(data) => {
+    const formData= new FormData();
+    formData.append('file', data)
+    const response = await fetch(`http://localhost:5000/`, {
+        method: 'POST',
+        body: formData
+    });
+    const dataf = await response.json();
+    return dataf
+}
+
+export const listTransactions = async (data) => {
+    const query = `
+        query {
+            transactions(id: "${data}"){
+                value, type, date
+            }
+        }
+    `
+    const endpoint = "http://localhost:5003/graphql";
+    try {
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                query: query,
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data.data.transactions;
+    } catch (error) {
+        console.error("Error list transactions:", error);
+        return null;
+    }
+}

@@ -9,7 +9,7 @@ function RegisterPage(){
     const navigate = useNavigate()
 
     useEffect(()=>{
-        if(isAuthenticated) navigate("/profile")
+        if(isAuthenticated) navigate("/transactions")
     }, [isAuthenticated])
 
     const onSubmit = handleSubmit( async (values) =>{
