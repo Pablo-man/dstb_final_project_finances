@@ -8,16 +8,14 @@ export const register={
         value: {type: GraphQLString},
         date: {type: GraphQLString},
         type: {type: GraphQLString},
-        user_id: {type: GraphQLString},
         destination_id: {type: GraphQLString},
         paymentMethod: {type: GraphQLString},
         evidence: {type: GraphQLString},
         category_user_id: {type: GraphQLString}
     },
-    async resolve(_, { value, date, type, user_id, destination_id, paymentMethod, evidence, category_user_id }) {
-        const transaction = new Transaction({ value, date, type, user_id, destination_id, paymentMethod, evidence, category_user_id });
+    async resolve(_, { value, date, type, destination_id, paymentMethod, evidence, category_user_id }, context) {
+        const transaction = new Transaction({ value, date, type, user_id: context.user.id, destination_id, paymentMethod, evidence, category_user_id });
         await transaction.save();
-
         return transaction;
     },
 }

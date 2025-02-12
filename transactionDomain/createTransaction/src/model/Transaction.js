@@ -10,7 +10,6 @@ const TransactionSchema = Schema(
     paymentMethod: { type: String, required: true, trim: true },
     evidence: { type: String, required: true, trim: true },
     category_user_id: { type: String, required: true, trim: true },
-    
   },
   {
     timestamps: true

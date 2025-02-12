@@ -2,4 +2,7 @@ import { config } from "dotenv";
 
 config();
 
-export const MONGODB_URI = process.env.MONGODB_URI || "mongodb://34.192.69.145:27017/user";
+const dbHost = process.env.DB_HOST || "localhost";
+const dbPort = process.env.DB_PORT || "27017";
+
+export const MONGODB_URI = process.env.MONGODB_URI || `mongodb://${dbHost}:${dbPort}/user`; 
