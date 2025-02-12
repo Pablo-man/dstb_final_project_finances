@@ -1,6 +1,7 @@
 import express from 'express'
 import fileUpload from 'express-fileupload'
 import router from './src/routes/upload.routes.js'
+import morgan from 'morgan'
 
 const app = express()
 
@@ -17,10 +18,11 @@ app.use((req, res, next)=>{
 })
 
 app.use(express.static('images'))
+app.use(morgan('dev'))
 
 const PORT = process.env.PORT || 5000
 
-app.use('/upload', router)
+app.use(router)
 
 app.listen(PORT, ()=>{
     console.log(`Server on port ${PORT}`)

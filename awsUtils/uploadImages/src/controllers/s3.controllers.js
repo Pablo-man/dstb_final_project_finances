@@ -21,5 +21,12 @@ export const uploadImage = async (req, res)=>{
     }
     const command = new PutObjectCommand(uploadParams)
     const result =  await client.send(command)
-    res.json({result})
+
+    const commandURL = new GetObjectCommand({
+        Bucket: AWS_BUCKET_NAME,
+        Key: file.name
+    })
+    const resultURL = await getSignedUrl(client, commandURL, {expiresIn: 3600})
+
+    res.json({result, resultURL})
 }
