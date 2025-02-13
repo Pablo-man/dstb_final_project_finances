@@ -21,8 +21,10 @@ export const AuthProvider = ({ children }) => {
     const signup = async (user) => {
         try {
             const res = await registerRequest(user)
-            setUser(res.data)
-            setIsAuthenticated(true)
+            if (res.status === 200) {
+                setUser(res.data)
+                setIsAuthenticated(true)
+            }
         } catch (error) {
             console.log(error.response.data)
             setErrors(error.response.data.message)
@@ -31,9 +33,7 @@ export const AuthProvider = ({ children }) => {
 
     const signin = async (user) => {
         try {
-            console.log(user)
             const res = await signInRequest(user)
-            console.log(res.data)
             setUser(res.data)
             setIsAuthenticated(true)
         } catch (error) {

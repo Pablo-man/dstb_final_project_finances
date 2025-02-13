@@ -1,14 +1,16 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTransactions } from '../context/TransactionContext'
+import {useNavigate} from 'react-router-dom'
 
 function TransactionPage() {
     const { register, handleSubmit, formState: { errors } } = useForm()
     const { transactions, createTransaction } = useTransactions()
+    const navigate = useNavigate()
 
     const onSubmit = handleSubmit( async (data) => {
         const res = createTransaction(data)
-        console.log(data)
+        navigate("/transactions")
     })
     const types = ["Egreso", "Ingreso"]
     const methods = ["Efectivo", "Transferencia", "Cheque", "Debito", "Credito"]
@@ -62,7 +64,6 @@ function TransactionPage() {
                     }
                     <button type="submit">Crear</button>
                 </form>
-                <img src="" alt="" />
             </div>
         </div>
     )

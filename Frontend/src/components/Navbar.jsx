@@ -7,7 +7,7 @@ function Navbar() {
     const {handleSubmit} = useForm()
 
     const onSubmit = handleSubmit( async () =>{
-        logout()
+        await logout()
     })
 
     return(
@@ -22,16 +22,16 @@ function Navbar() {
                             Bienvenido! {user.username}
                         </li>
                         <li>
-                            <Link to="/" onClick={onSubmit}>Cerrar Sesión</Link>
+                            <Link to="/" onClick={onSubmit} className="bg-indigo-500 px-4 py-1 rounded-md">Cerrar Sesión</Link>
                         </li>
                     </>
                 ) : (
                     <>
                         <li>
-                            <Link to="/signin">Iniciar Sesión</Link>
+                            <Link to="/signin" className="bg-indigo-500 px-4 py-1 rounded-md">Iniciar Sesión</Link>
                         </li>
                         <li>
-                            <Link to="/register">Registrarse</Link>
+                            <Link to="/register" className="bg-indigo-500 px-4 py-1 rounded-md">Registrarse</Link>
                         </li>
                     </>
                 )
