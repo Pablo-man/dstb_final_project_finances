@@ -76,4 +76,5 @@ jobs:
       ec2_host: ${{ secrets.EC2_HOST_USERDOMAIN }}
       ec2_key: ${{ secrets.EC2_KEY_USERDOMAIN }}
       docker_username: ${{ secrets.DOCKER_USERNAME }}
+      domain_name: ${{ secrets.USER_DOMAIN_NAME }}
 

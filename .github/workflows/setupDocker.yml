@@ -9,6 +9,8 @@ on:
         required: true
       ec2_key:
         required: true
+      domain_name:
+        required: true
 
 jobs:
   connect_update:

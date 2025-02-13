@@ -1,7 +1,6 @@
 import express from "express";
 import morgan from "morgan";
 import swaggerUI from "swagger-ui-express"
-
 import indexRoutes from "./src/routes/user.routes.js";
 import "./src/utils/mongoose.js"
 import specs from "./src/swagger/swagger.js";
