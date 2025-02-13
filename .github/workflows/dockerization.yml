@@ -36,6 +36,7 @@ jobs:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       repository_name: ${{ secrets.DOCKER_REPOSITORY_CREATEUSER }}
+      domain_name: ${{ secrets.USER_DOMAIN_NAME }}
 
   login-push-userread:
     needs: [detect-changes]
@@ -45,6 +46,7 @@ jobs:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       repository_name: ${{ secrets.DOCKER_REPOSITORY_READUSER }}
+      domain_name: ${{ secrets.USER_DOMAIN_NAME }}
 
   login-push-userupdate:
     needs: [detect-changes]
@@ -54,6 +56,7 @@ jobs:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       repository_name: ${{ secrets.DOCKER_REPOSITORY_UPDATEUSER }}
+      domain_name: ${{ secrets.USER_DOMAIN_NAME }}
 
   login-push-userdelete:
     needs: [detect-changes]
@@ -63,6 +66,7 @@ jobs:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       repository_name: ${{ secrets.DOCKER_REPOSITORY_DELETEUSER }}
+      domain_name: ${{ secrets.USER_DOMAIN_NAME }}
 
   ec2-cd-userdomain:
     needs: [login-push-usercreate, login-push-userread, login-push-userupdate,login-push-userdelete]
