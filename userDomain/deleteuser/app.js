@@ -1,6 +1,5 @@
 import express from "express";
 import morgan from "morgan";
-
 import indexRoutes from "./src/routes/user.routes.js";
 import "./src/utils/mongoose.js"
 
