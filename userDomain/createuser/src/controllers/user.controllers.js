@@ -26,7 +26,7 @@ export const createUser = async (req, res) => {
     const token = await generateJwt(id)
     res.cookie("token", token, {
       httpOnly: process.env.NODE_ENV !== "development",
-      secure: true,
+      secure: false,
       sameSite: "none",
     });
     res.json({
