@@ -315,7 +315,7 @@ jobs:
       repository_name: ${{ secrets.DOCKER_REPOSITORY_CLIENTDOMAIN }}
       domain_name: ${{ secrets.CLIENT_DOMAIN_NAME }}
 
-  ec2-cd-userdomain:
+  ec2-cd-clientdomain:
     needs: [login-push-frontend]
     if: always()
     uses: ./.github/workflows/setupDocker.yml
