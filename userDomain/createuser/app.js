@@ -20,6 +20,8 @@ app.use((req, res, next)=>{
 
 // middlewares
 app.use(morgan("dev"));
+
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs))
