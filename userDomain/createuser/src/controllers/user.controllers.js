@@ -27,7 +27,8 @@ export const createUser = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: false,
-      sameSite: "none"
+      sameSite: "none",
+      domain: "54.166.71.68"
     });
     res.json({
       id: userSaved._id,
