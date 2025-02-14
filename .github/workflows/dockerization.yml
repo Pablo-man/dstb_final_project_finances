@@ -78,3 +78,44 @@ jobs:
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       domain_name: ${{ secrets.USER_DOMAIN_NAME }}
 
+
+
+  login-push-jwtService:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'jwtservice')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_JWTSERVICE }}
+      domain_name: ${{ secrets.SECURITY_DOMAIN_NAME }}
+
+  login-push-signinService:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'signinservice')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_SIGNIN }}
+      domain_name: ${{ secrets.SECURITY_DOMAIN_NAME }}
+
+  login-push-signoutService:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'signoutservice')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_SIGNOUT }}
+      domain_name: ${{ secrets.SECURITY_DOMAIN_NAME }}
+
+  ec2-cd-securitydomain:
+    needs: [login-push-jwtService, login-push-signinService, login-push-signoutService]
+    if: always()
+    uses: ./.github/workflows/setupDocker.yml
+    secrets:
+      ec2_host: ${{ secrets.EC2_HOST_SECURITYDOMAIN }}
+      ec2_key: ${{ secrets.EC2_KEY_SECURITYDOMAIN }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      domain_name: ${{ secrets.SECURITY_DOMAIN_NAME }}

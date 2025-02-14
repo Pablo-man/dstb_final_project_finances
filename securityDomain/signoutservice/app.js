@@ -1,13 +1,15 @@
 import express from "express";
 import morgan from "morgan";
-import router from "./src/routes/jwt.routes.js";
+import cookieParser from "cookie-parser";
+import router from "./src/routes/login.routes.js";
+
 
 const app = express();
 
 // settings
-app.set("port", process.env.PORT || 4002);
+app.set("port", process.env.PORT || 4003);
 app.use((req, res, next)=>{
-    res.header(`Access-Control-Allow-Origin`, `*`);
+    res.header(`Access-Control-Allow-Origin`, ['*']);
     res.header(`Access-Control-Allow-Methods`, `GET,PUT,POST,DELETE`);
     res.header(`Access-Control-Allow-Headers`, `Content-Type`);
     next()
@@ -16,6 +18,7 @@ app.use((req, res, next)=>{
 // middlewares
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 // routes

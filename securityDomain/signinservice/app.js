@@ -2,8 +2,6 @@ import express from "express";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import router from "./src/routes/login.routes.js";
-
-
 import "./src/utils/mongoose.js"
 
 const app = express();

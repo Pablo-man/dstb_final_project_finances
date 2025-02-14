@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  jwt:
+    image: pamendeza/jwtservice:latest
+    ports:
+      - "4002:4002"
+    restart: always
+    depends_on:
+      - db
+
+  signin:
+    image: pamendeza/signinservice:latest
+    ports:
+      - "4001:4001"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=27017
+    restart: always
+    depends_on:
+      - db
+
+  signout:
+    image: pamendeza/signoutservice:latest
+    ports:
+      - "4003:4003"
+    restart: always  
+    depends_on:
+      - db
+
+  db:
+      image: mongo:latest
+      hostname: db
+      ports:
+        - "27017:27017"
+      volumes:
+        - /home/ubuntu/data/db:/data/db
+
