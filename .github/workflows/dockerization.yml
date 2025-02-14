@@ -215,3 +215,62 @@ jobs:
       domain_name: ${{ secrets.BENEFICIARY_DOMAIN_NAME }}
 
   # CATEGORY DOMAIN CONTINOUS DEPLOYMENT
+  login-push-categorycreate:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'createcategory')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_CREATECATEGORY }}
+      domain_name: ${{ secrets.CATEGORY_DOMAIN_NAME }}
+
+  login-push-categoryread:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'readcategory')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_READCATEGORY }}
+      domain_name: ${{ secrets.CATEGORY_DOMAIN_NAME }}
+
+  login-push-categoryupdate:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'updatecategory')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_UPDATECATEGORY }}
+      domain_name: ${{ secrets.CATEGORY_DOMAIN_NAME }}
+
+  login-push-categorydelete:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'deletecategory')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_DELETECATEGORY }}
+      domain_name: ${{ secrets.CATEGORY_DOMAIN_NAME }}
+
+  login-push-categoryuser:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'usercategory')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_USERCATEGORY }}
+      domain_name: ${{ secrets.CATEGORY_DOMAIN_NAME }}
+
+  ec2-cd-categorydomain:
+    needs: [login-push-categorycreate, login-push-categoryread, login-push-categoryupdate,login-push-categorydelete, login-push-categoryuser]
+    if: always()
+    uses: ./.github/workflows/setupDocker.yml
+    secrets:
+      ec2_host: ${{ secrets.EC2_HOST_CATEGORYDOMAIN }}
+      ec2_key: ${{ secrets.EC2_KEY_CATEGORYDOMAIN }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      domain_name: ${{ secrets.CATEGORY_DOMAIN_NAME }}

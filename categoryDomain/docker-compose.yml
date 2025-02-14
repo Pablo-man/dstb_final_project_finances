@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  createcategory:
+    image: pamendeza/createcategory:latest
+    ports:
+      - "9001:9001"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=27017
+    restart: always
+    depends_on:
+      - db
+
+  readcategory:
+    image: pamendeza/readcategory:latest
+    ports:
+      - "9002:9002"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=27017
+    restart: always
+    depends_on:
+      - db
+
+  updatecategory:
+    image: pamendeza/updatecategory:latest
+    ports:
+      - "9003:9003"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=27017
+    restart: always  
+    depends_on:
+      - db
+
+  deletecategory:
+    image: pamendeza/deletecategory:latest
+    ports:
+      - "9004:9004"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=27017
+    restart: always
+    depends_on:
+      - db
+
+  usercategory:
+    image: pamendeza/usercategory:latest
+    ports:
+      - "9005:9005"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=27017
+    restart: always
+    depends_on:
+      - db
+
+  db:
+      image: mongo:latest
+      hostname: db
+      ports:
+        - "27017:27017"
+      volumes:
+        - /home/ubuntu/data/db:/data/db
+

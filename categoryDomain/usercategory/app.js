@@ -8,7 +8,7 @@ import "./src/utils/mongoose.js"
 const app = express();
 
 // settings
-app.set("port", process.env.PORT || 9001);
+app.set("port", process.env.PORT || 9005);
 app.use((req, res, next)=>{
     res.header(`Access-Control-Allow-Origin`, `*`);
     res.header(`Access-Control-Allow-Methods`, `GET,PUT,POST,DELETE`);
