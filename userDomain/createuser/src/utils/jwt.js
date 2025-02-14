@@ -1,5 +1,5 @@
 export const generateJwt = async (userId) => {
-    const endpoint = "http://localhost:4002/";
+    const endpoint = "http://23.21.45.25:4002/";
     try {
         const response = await fetch(endpoint, {
             method: "POST",
