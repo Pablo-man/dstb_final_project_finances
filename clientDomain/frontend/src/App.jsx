@@ -12,6 +12,7 @@ import { AuthProvider } from './context/AuthContext'
 import { TransactionProvider } from './context/TransactionContext'
 import Navbar from './components/Navbar'
 
+
 function App() {
   return (
     <AuthProvider>

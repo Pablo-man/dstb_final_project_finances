@@ -17,7 +17,6 @@ app.use((req, res, next)=>{
     next()
 })
 
-
 // middlewares
 app.use(morgan("dev"));
 app.use(express.json());
