@@ -14,7 +14,7 @@ var corsOptions = {
     //credentials: true
   }
 // settings
-app.set("port", process.env.PORT || 5003);
+app.set("port", process.env.PORT || 5002);
 app.use(cors(corsOptions))
 
 // middlewares

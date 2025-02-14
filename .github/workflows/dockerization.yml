@@ -5,6 +5,7 @@ on:
     branches: ["QA"]
 
 jobs:
+  # USER DOMAIN CONTINOUS DEPLOYMENT
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
@@ -78,8 +79,7 @@ jobs:
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       domain_name: ${{ secrets.USER_DOMAIN_NAME }}
 
-
-
+  # SECURITY DOMAIN CONTINOUS DEPLOYMENT
   login-push-jwtService:
     needs: [detect-changes]
     if: contains(needs.detect-changes.outputs.modified_dirs, 'jwtservice')
@@ -119,3 +119,50 @@ jobs:
       ec2_key: ${{ secrets.EC2_KEY_SECURITYDOMAIN }}
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       domain_name: ${{ secrets.SECURITY_DOMAIN_NAME }}
+
+  # TRANSACTION DOMAIN CONTINOUS DEPLOYMENT
+  login-push-transactioncreate:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'createtransaction')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_CREATETRANSACTION }}
+      domain_name: ${{ secrets.TRANSACTION_DOMAIN_NAME }}
+
+  login-push-transactionread:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'readtransaction')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_READTRANSACTION }}
+      domain_name: ${{ secrets.TRANSACTION_DOMAIN_NAME }}
+
+  login-push-transactionupdate:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'updatetransaction')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_UPDATETRANSACTION }}
+      domain_name: ${{ secrets.TRANSACTION_DOMAIN_NAME }}
+
+  ec2-cd-transactiondomain:
+    needs: [login-push-transactioncreate, login-push-transactionread, login-push-transactionupdate]
+    if: always()
+    uses: ./.github/workflows/setupDocker.yml
+    secrets:
+      ec2_host: ${{ secrets.EC2_HOST_USERDOMAIN }}
+      ec2_key: ${{ secrets.EC2_KEY_USERDOMAIN }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      domain_name: ${{ secrets.USER_DOMAIN_NAME }}
+
+  # AWSUTILS DOMAIN CONTINOUS DEPLOYMENT
+
+  # BENEFICIARY DOMAIN CONTINOUS DEPLOYMENT
+
+  # CATEGORY DOMAIN CONTINOUS DEPLOYMENT
