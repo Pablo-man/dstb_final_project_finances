@@ -4,6 +4,7 @@ import swaggerUI from "swagger-ui-express"
 import indexRoutes from "./src/routes/user.routes.js";
 import "./src/utils/mongoose.js"
 import specs from "./src/swagger/swagger.js";
+import CookieParser from 'cookie-parser'
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use((req, res, next)=>{
 
 // middlewares
 app.use(morgan("dev"));
+app.use(CookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs))
