@@ -162,6 +162,35 @@ jobs:
       domain_name: ${{ secrets.TRANSACTION_DOMAIN_NAME }}
 
   # AWSUTILS DOMAIN CONTINOUS DEPLOYMENT
+  login-push-uploadvoucher:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'uploadvoucher')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_UPLOADVOUCHER }}
+      domain_name: ${{ secrets.AWS_DOMAIN_NAME }}
+
+  login-push-viewvoucher:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'viewvoucher')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_VIEWVOUCHER }}
+      domain_name: ${{ secrets.AWS_DOMAIN_NAME }}
+
+  ec2-cd-userdomain:
+    needs: [login-push-uploadvoucher, login-push-viewvoucher]
+    if: always()
+    uses: ./.github/workflows/setupDocker.yml
+    secrets:
+      ec2_host: ${{ secrets.EC2_HOST_AWSDOMAIN }}
+      ec2_key: ${{ secrets.EC2_KEY_AWSUTILS }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      domain_name: ${{ secrets.AWS_DOMAIN_NAME }}
 
   # BENEFICIARY DOMAIN CONTINOUS DEPLOYMENT
   login-push-beneficiarycreate:
