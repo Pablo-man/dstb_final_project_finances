@@ -17,6 +17,7 @@ app.use((req, res, next)=>{
     next()
 })
 
+
 app.use(express.static('images'))
 app.use(morgan('dev'))
 

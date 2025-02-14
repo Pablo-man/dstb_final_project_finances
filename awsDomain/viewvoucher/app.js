@@ -12,6 +12,7 @@ app.use((req, res, next)=>{
 
 app.use(express.static('images'))
 
+
 const PORT = process.env.PORT || 5006
 
 app.use('/list', router)
