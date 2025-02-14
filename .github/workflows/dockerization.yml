@@ -303,3 +303,24 @@ jobs:
       ec2_key: ${{ secrets.EC2_KEY_CATEGORYDOMAIN }}
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       domain_name: ${{ secrets.CATEGORY_DOMAIN_NAME }}
+
+  # CATEGORY DOMAIN CONTINOUS DEPLOYMENT
+  login-push-frontend:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'frontend')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_CLIENTDOMAIN }}
+      domain_name: ${{ secrets.CLIENT_DOMAIN_NAME }}
+
+  ec2-cd-userdomain:
+    needs: [login-push-frontend]
+    if: always()
+    uses: ./.github/workflows/setupDocker.yml
+    secrets:
+      ec2_host: ${{ secrets.EC2_HOST_FRONTEND }}
+      ec2_key: ${{ secrets.EC2_KEY_CLIENTDOMAIN }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      domain_name: ${{ secrets.CLIENT_DOMAIN_NAME }}
