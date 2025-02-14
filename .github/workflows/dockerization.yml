@@ -182,7 +182,7 @@ jobs:
       repository_name: ${{ secrets.DOCKER_REPOSITORY_VIEWVOUCHER }}
       domain_name: ${{ secrets.AWS_DOMAIN_NAME }}
 
-  ec2-cd-userdomain:
+  ec2-cd-awsdomain:
     needs: [login-push-uploadvoucher, login-push-viewvoucher]
     if: always()
     uses: ./.github/workflows/setupDocker.yml
