@@ -11,7 +11,7 @@ const app = express();
 // settings
 app.set("port", process.env.PORT || 3001);
 app.use((req, res, next)=>{
-    res.header(`Access-Control-Allow-Origin`, `https://3679-200-12-169-184.ngrok-free.app/`);
+    res.header(`Access-Control-Allow-Origin`, `http://localhost:5173`);
     res.header(`Access-Control-Allow-Methods`, `GET,PUT,POST,DELETE`);
     res.header(`Access-Control-Allow-Headers`, `Content-Type`);
     res.header(`Access-Control-Allow-Credentials`, `true`);

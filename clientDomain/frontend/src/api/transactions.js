@@ -4,6 +4,7 @@ export const registerTransaction = async (data) => {
             register(value: "${data.value}", date: "${data.date}", type: "${data.type}", destination_id: "${data.destination_id}", paymentMethod: "${data.paymentMethod}", evidence: "${data.evidence}", category_user_id: "${data.category_user_id}") 
         }
     `
+    console.log(mutation)
     const endpoint = "http://localhost:5001/graphql";
     console.log(mutation)
     try {
@@ -34,7 +35,7 @@ export const registerTransaction = async (data) => {
 export const resgisterImage = async(data) => {
     const formData= new FormData();
     formData.append('file', data)
-    const response = await fetch(`http://localhost:5000/`, {
+    const response = await fetch(`http://localhost:5005/`, {
         method: 'POST',
         body: formData
     });
@@ -50,7 +51,7 @@ export const listTransactions = async (data) => {
             }
         }
     `
-    const endpoint = "http://localhost:5003/graphql";
+    const endpoint = "http://localhost:5002/graphql";
     try {
         const response = await fetch(endpoint, {
             method: "POST",
