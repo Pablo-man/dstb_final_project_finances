@@ -1,0 +1,12 @@
+# Ignorar archivos y carpetas innecesarios para la imagen
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.sqlite3
+.env
+.vscode/
+.idea/
+.git/
+.dockerignore

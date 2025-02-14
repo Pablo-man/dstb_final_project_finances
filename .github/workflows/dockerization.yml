@@ -164,5 +164,54 @@ jobs:
   # AWSUTILS DOMAIN CONTINOUS DEPLOYMENT
 
   # BENEFICIARY DOMAIN CONTINOUS DEPLOYMENT
+  login-push-beneficiarycreate:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'createbeneficiary')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_CREATEBENEFICIARY }}
+      domain_name: ${{ secrets.BENEFICIARY_DOMAIN_NAME }}
+
+  login-push-beneficiaryread:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'readbeneficiary')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_READBENEFICIARY }}
+      domain_name: ${{ secrets.BENEFICIARY_DOMAIN_NAME }}
+
+  login-push-beneficiaryupdate:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'updatebeneficiary')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_UPDATEBENEFICIARY }}
+      domain_name: ${{ secrets.BENEFICIARY_DOMAIN_NAME }}
+
+  login-push-beneficiarydelete:
+    needs: [detect-changes]
+    if: contains(needs.detect-changes.outputs.modified_dirs, 'deletebeneficiary')
+    uses: ./.github/workflows/login-build-push.yml
+    secrets:
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      repository_name: ${{ secrets.DOCKER_REPOSITORY_DELETEBENEFICIARY }}
+      domain_name: ${{ secrets.BENEFICIARY_DOMAIN_NAME }}
+
+  ec2-cd-beneficiarydomain:
+    needs: [login-push-beneficiarycreate, login-push-beneficiaryread, login-push-beneficiaryupdate,login-push-beneficiarydelete]
+    if: always()
+    uses: ./.github/workflows/setupDocker.yml
+    secrets:
+      ec2_host: ${{ secrets.EC2_HOST_BENEFICIARYDOMAIN }}
+      ec2_key: ${{ secrets.EC2_KEY_BENEFICIARYDOMAIN }}
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      domain_name: ${{ secrets.BENEFICIARY_DOMAIN_NAME }}
 
   # CATEGORY DOMAIN CONTINOUS DEPLOYMENT
