@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  cli_domain:
+    image: pamendeza/frontend:latest
+    ports:
+      - "80:80"
