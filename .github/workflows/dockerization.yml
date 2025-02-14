@@ -320,7 +320,7 @@ jobs:
     if: always()
     uses: ./.github/workflows/setupDocker.yml
     secrets:
-      ec2_host: ${{ secrets.EC2_HOST_FRONTEND }}
+      ec2_host: ${{ secrets.EC2_HOST_CLIENTDOMAIN }}
       ec2_key: ${{ secrets.EC2_KEY_CLIENTDOMAIN }}
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       domain_name: ${{ secrets.CLIENT_DOMAIN_NAME }}
